@@ -1,5 +1,6 @@
 ﻿using EntityModels.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Week3EntityFramework.Dtos;
 
 var context = new IndustryConnectWeek2Context();
@@ -40,15 +41,15 @@ var context = new IndustryConnectWeek2Context();
 
 
 
-var sales = context.Sales.Include(c => c.Customer)
-    .Include(p => p.Product).ToList();
+//var sales = context.Sales.Include(c => c.Customer)
+//    .Include(p => p.Product).ToList();
 
-var salesDto = new List<SaleDto>();
+//var salesDto = new List<SaleDto>();
 
-foreach (Sale s in sales)
-{
-    salesDto.Add(new SaleDto(s));
-}
+//foreach (Sale s in sales)
+//{
+//    salesDto.Add(new SaleDto(s));
+//}
 
 
 
@@ -66,19 +67,19 @@ foreach (Sale s in sales)
 
 
 
-Console.WriteLine("Which customer record would you like to update?");
+//Console.WriteLine("Which customer record would you like to update?");
 
-var response = Convert.ToInt32(Console.ReadLine());
+//var response = Convert.ToInt32(Console.ReadLine());
 
-var customer = context.Customers.Include(s => s.Sales)
-    .ThenInclude(p => p.Product)
-    .FirstOrDefault(c => c.Id == response);
-
-
-var total = customer.Sales.Select(s => s.Product.Price).Sum();
+//var customer = context.Customers.Include(s => s.Sales)
+//    .ThenInclude(p => p.Product)
+//    .FirstOrDefault(c => c.Id == response);
 
 
-var customerSales = context.CustomerSales.ToList();
+//var total = customer.Sales.Select(s => s.Product.Price).Sum();
+
+
+//var customerSales = context.CustomerSales.ToList();
 
 //var totalsales = customer.Sales
 
@@ -101,6 +102,17 @@ var customerSales = context.CustomerSales.ToList();
 //}
 
 
+
+var customerWithoutSale = context.Customers.Include(c => c.Sales)
+    .Where(c => c.Sales.Count() == 0).ToList();
+       
+foreach (var customer in customerWithoutSale)
+{
+    Console.WriteLine($"{customer.FirstName} {customer.LastName}");
+}
+
+    
+  
 
 Console.ReadLine();
 
