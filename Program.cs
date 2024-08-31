@@ -139,6 +139,17 @@ context.SaveChanges();
 
 
 
+var newStore = new Store();
+
+Console.WriteLine();
+Console.WriteLine("Please enter the store name.");
+newStore.Name = Console.ReadLine();
+
+context.Stores.Add(newStore);
+context.SaveChanges();
+
+
+
 Console.ReadLine();
 
 
