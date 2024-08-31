@@ -105,14 +105,39 @@ var context = new IndustryConnectWeek2Context();
 
 var customerWithoutSale = context.Customers.Include(c => c.Sales)
     .Where(c => c.Sales.Count() == 0).ToList();
-       
+
 foreach (var customer in customerWithoutSale)
 {
     Console.WriteLine($"{customer.FirstName} {customer.LastName}");
 }
 
-    
-  
+Console.WriteLine();
+var customer2 = new Customer();
+
+Console.WriteLine("Would you like to add a new customer? y/n");
+var response = Console.ReadLine();
+if (response?.ToLower() == "y")
+{
+    Console.WriteLine("Please enter customer's first name");
+    customer2.FirstName = Console.ReadLine();
+    Console.WriteLine("Please enter customer's last name");
+    customer2.LastName = Console.ReadLine();
+}
+
+Console.WriteLine("Would you like to add a new sale for this customer?");
+var response2 = Console.ReadLine();
+if (response?.ToLower() == "y")
+{
+    Console.WriteLine("Which product would you like to add?");
+    var product = Convert.ToInt32(Console.ReadLine());
+    customer2.Sales.Add(new Sale { ProductId = product });
+}
+
+
+context.Customers.Add(customer2);
+context.SaveChanges();
+
+
 
 Console.ReadLine();
 
