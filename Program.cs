@@ -148,6 +148,13 @@ newStore.Name = Console.ReadLine();
 context.Stores.Add(newStore);
 context.SaveChanges();
 
+var storesWithSales = context.Stores.Include(s => s.Sales)
+    .Where(s => s.Sales.Count > 0).ToList();
+
+foreach (var store in storesWithSales)
+{
+    Console.WriteLine($"{store.Name}");
+}
 
 
 Console.ReadLine();
